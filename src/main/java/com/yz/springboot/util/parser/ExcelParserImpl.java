@@ -2,6 +2,7 @@ package com.yz.springboot.util.parser;
 
 import com.yz.springboot.exception.CommonException;
 import com.yz.springboot.exception.ErrorEnum;
+import com.yz.springboot.util.CloseUtils;
 import com.yz.springboot.util.FormatUtils;
 import com.yz.springboot.util.TextUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -95,7 +96,7 @@ public class ExcelParserImpl implements IParser {
         if (TextUtils.isEmpty(originalFilename)) {
             throw new CommonException(ErrorEnum.FILE_FORMAT_ERROR);
         }
-        InputStream inputStream;
+        InputStream inputStream = null;
         Workbook workbook = null;
         try {
             inputStream = multipartFile.getInputStream();
@@ -107,6 +108,8 @@ public class ExcelParserImpl implements IParser {
                     : null;
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            CloseUtils.closeIO(inputStream);
         }
         if (workbook == null) {
             throw new CommonException(ErrorEnum.FILE_FORMAT_ERROR);

@@ -14,7 +14,7 @@ public final class TextUtils {
         throw new UnsupportedOperationException("u can't initialize me");
     }
 
-    private static Pattern NUMBER_PATTERN = Pattern.compile("^[-\\+]?[\\d]*$");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("^[-\\+]?[\\d]*$");
 
     public static boolean isEmpty(CharSequence text) {
         return text == null || text.length() == 0;
