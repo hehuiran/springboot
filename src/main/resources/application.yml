@@ -1,0 +1,59 @@
+server:
+  port: 8080
+spring:
+  freemarker:
+    request-context-attribute: req #req访问request
+    suffix: .html #后缀名
+    content-type: text/html
+    enabled: true
+    cache: false
+    template-loader-path: classpath:/templates/ #模版加载路径\
+    charset: utf-8 #编码格式
+    settings:
+      number_format: '0.##' #数字格式化，无小数点
+  datasource:
+    url: jdbc:mysql://localhost:3306/sqltest?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: "yzkj1234"
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      max-active: 20
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-open-prepared-statements: 20
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1s
+    timeout: 10s
+    database: 0
+  jpa:
+    hibernate:
+      ddl-auto: update
+# 打印日志
+logging:
+  level:
+    com.yz.springboot: debug
+mybatis:
+  configuration:
+    cache-enabled: true #全局映射器启用缓存
+    lazy-loading-enabled: false #查询时,关闭关联对象及时加载以提高性能
+    aggressive-lazy-loading: false #按需加载字段(加载字段由SQL指定),不会加载关联表的所有字段,以提高性能
+    multiple-result-sets-enabled: true #允许返回不同的结果集以达到通用的效果
+    default-executor-type: reuse #对于批量更新操作缓存SQL以提高性能
+    default-statement-timeout: 10000 #数据库执行超时时间
+  mapper-locations: classpath:mappper/*.xml #注意:一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.yz.springboot.entity # 注意：对应实体类的路径
